@@ -51,6 +51,11 @@
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="agU-2e-8P0" secondAttribute="height" multiplier="2:3" id="tUX-zY-Qjh"/>
                                         </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
+                                                <integer key="value" value="20"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Рейтинг этого фильма меньше чем 5?" textAlignment="center" lineBreakMode="wordWrap" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontForContentSizeCategory="YES" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="KhM-X1-f8S" userLabel="Question Label">
                                         <rect key="frame" x="0.0" y="624.5" width="374" height="99.5"/>
@@ -72,17 +77,12 @@
                                                     <color key="titleColor" name="YP Black"/>
                                                 </state>
                                                 <buttonConfiguration key="configuration" style="plain" title="Нет">
-                                                    <backgroundConfiguration key="background">
+                                                    <backgroundConfiguration key="background" cornerRadius="15">
                                                         <color key="backgroundColor" name="YP White"/>
                                                     </backgroundConfiguration>
                                                     <fontDescription key="titleFontDescription" name="YSDisplay-Medium" family="YS Display" pointSize="20"/>
                                                     <color key="baseForegroundColor" name="YP Black"/>
                                                 </buttonConfiguration>
-                                                <userDefinedRuntimeAttributes>
-                                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius ">
-                                                        <integer key="value" value="15"/>
-                                                    </userDefinedRuntimeAttribute>
-                                                </userDefinedRuntimeAttributes>
                                                 <connections>
                                                     <action selector="noButtonClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="6cN-TH-DN4"/>
                                                 </connections>
@@ -95,7 +95,7 @@
                                                     <color key="titleColor" name="YP Black"/>
                                                 </state>
                                                 <buttonConfiguration key="configuration" style="plain" title="Да">
-                                                    <backgroundConfiguration key="background">
+                                                    <backgroundConfiguration key="background" cornerRadius="15">
                                                         <color key="backgroundColor" name="YP White"/>
                                                     </backgroundConfiguration>
                                                     <fontDescription key="titleFontDescription" name="YSDisplay-Medium" family="YS Display" pointSize="20"/>
@@ -125,6 +125,7 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="buttonsStack" destination="35f-gy-BfJ" id="Qz0-MU-7rO"/>
                         <outlet property="counterLabel" destination="dLh-rd-VZh" id="Gfx-BN-ESv"/>
                         <outlet property="imageView" destination="agU-2e-8P0" id="XJR-B8-BNa"/>
                         <outlet property="textLabel" destination="KhM-X1-f8S" id="WGT-Zn-gi9"/>

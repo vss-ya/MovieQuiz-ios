@@ -2,6 +2,13 @@ import UIKit
 
 final class MovieQuizViewController: UIViewController {
     
+    // MARK: - IB Outlets
+    @IBOutlet private var imageView: UIImageView!
+    @IBOutlet private var textLabel: UILabel!
+    @IBOutlet private var counterLabel: UILabel!
+    @IBOutlet private var buttonsStack: UIStackView!
+    
+    // MARK: - Private Properties
     // массив со списком моковых вопросов
     private let questions: [QuizQuestion] = [
         QuizQuestion(
@@ -51,10 +58,6 @@ final class MovieQuizViewController: UIViewController {
     // переменная со счётчиком правильных ответов, начальное значение закономерно 0
     private var correctAnswers = 0
     
-    @IBOutlet private var imageView: UIImageView!
-    @IBOutlet private var textLabel: UILabel!
-    @IBOutlet private var counterLabel: UILabel!
-    
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -63,6 +66,24 @@ final class MovieQuizViewController: UIViewController {
         show(quiz: quiz)
     }
     
+    // MARK: - IB Actions
+    // метод вызывается, когда пользователь нажимает на кнопку "Нет"
+    @IBAction private func noButtonClicked(_ sender: UIButton) {
+        let currentQuestion = questions[currentQuestionIndex] // 1
+        let givenAnswer = false // 2
+        
+        showAnswerResult(isCorrect: givenAnswer == currentQuestion.correctAnswer) // 3
+    }
+    
+    // метод вызывается, когда пользователь нажимает на кнопку "Да"
+    @IBAction private func yesButtonClicked(_ sender: UIButton) {
+        let currentQuestion = questions[currentQuestionIndex] // 1
+        let givenAnswer = true // 2
+        
+        showAnswerResult(isCorrect: givenAnswer == currentQuestion.correctAnswer) // 3
+    }
+    
+    // MARK: - Private Methods
     // метод конвертации, который принимает моковый вопрос и возвращает вью модель для экрана вопроса
     private func convert(model: QuizQuestion) -> QuizStepViewModel {
         return QuizStepViewModel(
@@ -114,7 +135,13 @@ final class MovieQuizViewController: UIViewController {
         imageView.layer.borderWidth = 8
         imageView.layer.borderColor = isCorrect ? UIColor.ypGreen.cgColor : UIColor.ypRed.cgColor
         
+        buttonsStack.arrangedSubviews.forEach {
+            ($0 as? UIButton)?.isEnabled = false
+        }
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+            self.buttonsStack.arrangedSubviews.forEach {
+                ($0 as? UIButton)?.isEnabled = true
+            }
             self.showNextQuestionOrResults()
         }
     }
@@ -137,22 +164,6 @@ final class MovieQuizViewController: UIViewController {
             
             show(quiz: viewModel)
         }
-    }
-    
-    // метод вызывается, когда пользователь нажимает на кнопку "Нет"
-    @IBAction private func noButtonClicked(_ sender: UIButton) {
-        let currentQuestion = questions[currentQuestionIndex] // 1
-        let givenAnswer = false // 2
-        
-        showAnswerResult(isCorrect: givenAnswer == currentQuestion.correctAnswer) // 3
-    }
-    
-    // метод вызывается, когда пользователь нажимает на кнопку "Да"
-    @IBAction private func yesButtonClicked(_ sender: UIButton) {
-        let currentQuestion = questions[currentQuestionIndex] // 1
-        let givenAnswer = true // 2
-        
-        showAnswerResult(isCorrect: givenAnswer == currentQuestion.correctAnswer) // 3
     }
     
 }
