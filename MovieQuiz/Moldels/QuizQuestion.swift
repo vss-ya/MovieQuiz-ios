@@ -1,8 +1,8 @@
 //
-//  Structs.swift
+//  QuizQuestion.swift
 //  MovieQuiz
 //
-//  Created by vs on 27.10.2023.
+//  Created by vs on 13.11.2023.
 //
 
 import Foundation
