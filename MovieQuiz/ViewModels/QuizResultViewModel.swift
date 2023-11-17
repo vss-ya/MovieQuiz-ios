@@ -1,5 +1,5 @@
 //
-//  QuizResultsViewModel.swift
+//  QuizResultViewModel.swift
 //  MovieQuiz
 //
 //  Created by vs on 13.11.2023.
@@ -8,7 +8,7 @@
 import Foundation
 
 // для состояния "Результат квиза"
-struct QuizResultsViewModel {
+struct QuizResultViewModel {
   let title: String
   let text: String
   let buttonText: String

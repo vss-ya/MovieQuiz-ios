@@ -19,7 +19,7 @@ final class MovieQuizViewController: UIViewController {
     private var currentQuestion: QuizQuestion?
     
     private var questionFactory: QuestionFactoryProtocol!
-    private var statisticService: StatisticService!
+    private var statisticService: StatisticServiceProtocol!
     private var alertPresenter: AlertPresenter!
     
     // MARK: - Lifecycle
@@ -30,7 +30,7 @@ final class MovieQuizViewController: UIViewController {
         questionFactory.delegate = self
         questionFactory.requestNextQuestion()
         
-        statisticService = StatisticServiceImplementation()
+        statisticService = StatisticService()
         
         alertPresenter = AlertPresenter(parent: self)
     }
@@ -75,11 +75,11 @@ final class MovieQuizViewController: UIViewController {
     }
     
     // приватный метод для показа результатов раунда квиза
-    // принимает вью модель QuizResultsViewModel и ничего не возвращает
-    private func show(quiz result: QuizResultsViewModel) {
+    // принимает вью модель QuizResultViewModel и ничего не возвращает
+    private func show(result: QuizResultViewModel) {
         let alert = AlertModel(title: result.title,
-                                    message: result.text,
-                                    buttonText: result.buttonText)
+                               message: result.text,
+                               buttonText: result.buttonText)
         alertPresenter.show(alert) { [weak self] in
             guard let self else {
                 return
@@ -122,12 +122,12 @@ final class MovieQuizViewController: UIViewController {
                 Рекорд: \(statisticService.bestGame.description)
                 Средняя точность: \(String(format: "%.2f", statisticService.totalAccuracy))%
                 """
-            let quiz = QuizResultsViewModel( // 2
+            let result = QuizResultViewModel( // 2
                 title: "Этот раунд окончен!",
                 text: text,
                 buttonText: "Сыграть ещё раз"
             )
-            show(quiz: quiz) // 3
+            show(result: result) // 3
         } else {
             currentQuestionIndex += 1
             questionFactory.requestNextQuestion()

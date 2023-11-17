@@ -1,5 +1,5 @@
 //
-//  StatisticServiceImplementation.swift
+//  StatisticService.swift
 //  MovieQuiz
 //
 //  Created by vs on 17.11.2023.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-final class StatisticServiceImplementation: StatisticService {
+final class StatisticService: StatisticServiceProtocol {
     
     enum Keys: String {
         case correct, total, bestGame, gamesCount

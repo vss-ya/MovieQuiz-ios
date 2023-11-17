@@ -1,5 +1,5 @@
 //
-//  StatisticService.swift
+//  StatisticServiceProtocol.swift
 //  MovieQuiz
 //
 //  Created by vs on 17.11.2023.
@@ -7,7 +7,7 @@
 
 import Foundation
 
-protocol StatisticService {
+protocol StatisticServiceProtocol {
     func store(correct count: Int, total amount: Int)
     var totalAccuracy: Double { get }
     var gamesCount: Int { get }
