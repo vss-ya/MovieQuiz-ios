@@ -157,13 +157,12 @@ final class MovieQuizViewController: UIViewController {
     
     private func showLoadingIndicator() {
         disableButtons()
-        activityIndicator.isHidden = false // говорим, что индикатор загрузки не скрыт
-        activityIndicator.startAnimating() // включаем анимацию
+        activityIndicator.startAnimating()
     }
     
     private func hideLoadingIndicator() {
         enableButtons()
-        activityIndicator.isHidden = true
+        activityIndicator.stopAnimating()
     }
     
     private func showNetworkError(message: String) {

@@ -9,9 +9,9 @@ import Foundation
 
 class QuestionFactory: QuestionFactoryProtocol {
     
-    private let moviesLoader: MoviesLoading
-    internal weak var delegate: QuestionFactoryDelegate?
+    weak var delegate: QuestionFactoryDelegate?
     
+    private let moviesLoader: MoviesLoading
     private var movies: [MostPopularMovie] = []
     
     init(moviesLoader: MoviesLoading, delegate: QuestionFactoryDelegate?) {
