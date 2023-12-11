@@ -24,6 +24,7 @@ class AlertPresenter {
             completion()
         }
         ac.addAction(action)
+        ac.view.accessibilityIdentifier = model.accessibilityIdentifier
         parent?.present(ac, animated: true, completion: nil)
     }
     
