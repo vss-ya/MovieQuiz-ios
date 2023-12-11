@@ -69,16 +69,16 @@ final class StatisticService: StatisticServiceProtocol {
         }
     }
     
-    func store(correct count: Int, total amount: Int) {
-        let newGame = GameRecord(correct: count, total: amount, date: Date())
+    func store(correct: Int, total: Int) {
+        let newGame = GameRecord(correct: correct, total: total, date: Date())
 
         if newGame.isBetterThan(bestGame) {
             bestGame = newGame
         }
         
-        gamesCount += 1
-        correct += count
-        total += amount
+        self.gamesCount += 1
+        self.correct += correct
+        self.total += total
     }
     
 }

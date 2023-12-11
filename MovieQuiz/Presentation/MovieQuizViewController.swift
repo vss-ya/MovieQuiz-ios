@@ -7,6 +7,7 @@ final class MovieQuizViewController: UIViewController {
     @IBOutlet private var textLabel: UILabel!
     @IBOutlet private var counterLabel: UILabel!
     @IBOutlet private var buttonsStack: UIStackView!
+    @IBOutlet private var activityIndicator: UIActivityIndicatorView!
     
     // MARK: - Private Properties
     // переменная со счётчиком правильных ответов, начальное значение закономерно 0
@@ -26,13 +27,16 @@ final class MovieQuizViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        questionFactory = QuestionFactory()
-        questionFactory.delegate = self
-        questionFactory.requestNextQuestion()
+        questionFactory = QuestionFactory(moviesLoader: MoviesLoader(),
+                                          delegate: self)
         
         statisticService = StatisticService()
-        
         alertPresenter = AlertPresenter(parent: self)
+        
+        prepareView()
+        showLoadingIndicator()
+        
+        questionFactory.loadData()
     }
     
     // MARK: - IB Actions
@@ -60,7 +64,7 @@ final class MovieQuizViewController: UIViewController {
     // метод конвертации, который принимает моковый вопрос и возвращает вью модель для экрана вопроса
     private func convert(model: QuizQuestion) -> QuizStepViewModel {
         return QuizStepViewModel(
-            image: UIImage(named: model.image) ?? UIImage(),
+            image: UIImage(data: model.image) ?? UIImage(),
             question: model.text,
             questionNumber: "\(currentQuestionIndex + 1)/\(questionsAmount)")
     }
@@ -134,6 +138,11 @@ final class MovieQuizViewController: UIViewController {
         }
     }
     
+    private func prepareView() {
+        counterLabel.text = ""
+        textLabel.text = ""
+    }
+    
     private func disableButtons() {
         buttonsStack.arrangedSubviews.forEach {
             ($0 as? UIButton)?.isEnabled = false
@@ -143,6 +152,31 @@ final class MovieQuizViewController: UIViewController {
     private func enableButtons() {
         buttonsStack.arrangedSubviews.forEach {
             ($0 as? UIButton)?.isEnabled = true
+        }
+    }
+    
+    private func showLoadingIndicator() {
+        disableButtons()
+        activityIndicator.startAnimating()
+    }
+    
+    private func hideLoadingIndicator() {
+        enableButtons()
+        activityIndicator.stopAnimating()
+    }
+    
+    private func showNetworkError(message: String) {
+        let alert = AlertModel(title: "Ошибка",
+                               message: message,
+                               buttonText: "Попробовать ещё раз")
+        alertPresenter.show(alert) { [weak self] in
+            guard let self else {
+                return
+            }
+            self.currentQuestionIndex = 0
+            self.correctAnswers = 0
+            
+            self.questionFactory.loadData()
         }
     }
     
@@ -161,6 +195,16 @@ extension MovieQuizViewController: QuestionFactoryDelegate {
         DispatchQueue.main.async { [weak self] in
             self?.show(quiz: quiz)
         }
+    }
+    
+    func didLoadDataFromServer() {
+        hideLoadingIndicator()
+        questionFactory.requestNextQuestion()
+    }
+
+    func didFailToLoadData(with error: Error) {
+        hideLoadingIndicator()
+        showNetworkError(message: error.localizedDescription)
     }
     
 }
