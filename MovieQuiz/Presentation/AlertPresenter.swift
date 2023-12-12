@@ -9,10 +9,10 @@ import UIKit
 
 class AlertPresenter {
 
-    weak var parent: UIViewController?
+    weak var viewController: UIViewController?
 
-    init(parent: UIViewController? = nil) {
-        self.parent = parent
+    init(viewController: UIViewController? = nil) {
+        self.viewController = viewController
     }
 
     func show(_ model: AlertModel, completion: @escaping (() -> Void)) {
@@ -24,7 +24,8 @@ class AlertPresenter {
             completion()
         }
         ac.addAction(action)
-        parent?.present(ac, animated: true, completion: nil)
+        ac.view.accessibilityIdentifier = model.accessibilityIdentifier
+        viewController?.present(ac, animated: true, completion: nil)
     }
     
 }
